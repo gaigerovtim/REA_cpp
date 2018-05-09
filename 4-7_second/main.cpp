@@ -49,6 +49,20 @@ int main() {
     for (int j = 0; j < col; j++) {
         cout << about[ j ].name << " | " << about[ j ].artical << " | " << about[ j ].count << " | " << about[ j ].price << " | " << about[ j ].sale << endl;
     }
+    //ПОЗИЦИИ СО СКИДКОЙ
+    for (int r = 0; r < col; r++) {
+        if (about[ r ].sale > 0)
+        {
+            cout << about[ r ].name << " | " << about[ r ].artical << " | " << about[ r ].count << " | " << about[ r ].price << " | " << about[ r ].sale << endl;
+        }
+    }
     
+    //ПОЗИЦИИ, КОТОРЫХ НЕТ В НАЛИЧИИ
+    for (int l = 0; l < col; l++) {
+        if (about[ l ].count == 0)
+        {
+            cout << about[ l ].name << " | " << about[ l ].artical << " | " << about[ l ].count << " | " << about[ l ].price << " | " << about[ l ].sale << endl;
+        }
+    }
     fclose(BD); // Закрытие БД
 }

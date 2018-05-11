@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+//СТРУКТУРА
 struct hachi {
     string name;
     long int artical;
@@ -10,17 +11,14 @@ struct hachi {
     unsigned short int sale;
 };
 
-int menu0() {                                                      //Создание структуры для меню
-    int variant0;
+void print_menu_first() {
+    system("cls");  // очищаем экран
     cout << "\nСоздать БД\n" << endl;
     cout << "\nЗагрузить данные\n" << endl;
     cout << ">>>";
-    cin >> variant0;
-    return variant0;
 }
-
-int menu1() {                                                      //Создание структуры для меню
-    int variant1;
+void print_menu_second() {
+    system("cls");  // очищаем экран
     cout << "\nСоздать БД\n" << endl;
     cout << "\nВывести все позиции в формате \n" << endl;
     cout << "\nВыход\n" << endl;
@@ -31,10 +29,36 @@ int menu1() {                                                      //Созда�
      cout << "Отсортировать все позиции по указанному полю" << endl;
      cout << "Сохранить БД\n" << endl;*/
     cout << ">>>";
-    cin >> variant1;
-    return variant1;
 }
 
+//Создание структуры для меню
+/* int menu0() {
+ int variant0;
+ cout << "\nСоздать БД\n" << endl;
+ cout << "\nЗагрузить данные\n" << endl;
+ cout << ">>>";
+ cin >> variant0;
+ return variant0;
+ }
+ 
+ //Создание структуры для меню
+ int menu1() {
+ int variant1;
+ cout << "\nСоздать БД\n" << endl;
+ cout << "\nВывести все позиции в формате \n" << endl;
+ cout << "\nВыход\n" << endl;
+ cout << "Добавить позицию\n" << endl;
+ cout << "Поиск позиции по артикулу" << endl;
+ cout << "Вывести все позиции со скидкой" << endl;
+ cout << "Вывести все позиции, которых нет в наличии" << endl;
+ cout << "Отсортировать все позиции по указанному полю" << endl;
+ cout << "Сохранить БД\n" << endl;
+ cout << ">>>";
+ cin >> variant1;
+ return variant1;
+ } */
+
+//Создание новой БД
 void array_new_bd ( int n, hachi about[])
 {
     for (int i = 0; i < n; i++){
@@ -51,6 +75,7 @@ void array_new_bd ( int n, hachi about[])
     }
 };
 
+//Поиск по артиклю
 void array_find_artical ( int l, int n, hachi about[])
 {
     cout << "Введите артикул";
@@ -65,6 +90,8 @@ void array_find_artical ( int l, int n, hachi about[])
     }
 };
 
+//Вывод на экран в фотмате
+//Наименование Артикль Количество Цена Скидка
 void array_print ( int n, hachi about[])
 {
     for (int j = 0; j < n; j++) {
@@ -72,6 +99,7 @@ void array_print ( int n, hachi about[])
     }
 };
 
+//Вывод товаров со скидкой
 void array_sale ( int n, hachi about[])
 {
     for (int r = 0; r < n; r++) {
@@ -82,6 +110,7 @@ void array_sale ( int n, hachi about[])
     }
 };
 
+//Вывод товаров, которых нет в наличии
 void array_count ( int n, hachi about[])
 {
     for (int l = 0; l < n; l++) {
@@ -92,57 +121,99 @@ void array_count ( int n, hachi about[])
     }
 };
 
+int get_variant(int count) {
+    int variant;
+    string s; // строка для считывания введённых данных
+    getline(cin, s); // считываем строку
+    
+    // пока ввод некорректен, сообщаем об этом и просим повторить его
+    while (sscanf(s.c_str(), "%d", &variant) != 1 || variant < 1 || variant > count) {
+        cout << "Incorrect input. Try again: "; // выводим сообщение об ошибке
+        getline(cin, s); // считываем строку повторно
+    }
+    
+    return variant;
+}
+
 
 int main() {
     setlocale(LC_ALL, "russian");
-    int col;
+    int col, variant;
     long int find_artical;
     struct hachi pdr;
     hachi *pdr1 = new hachi;
     hachi about[col];
     
-    //MENU-0
-    FILE *base;
-    int variant0 = menu0();
-    switch (variant0)
-    {
-        case 1:
-            base = fopen("/Users/andrvdnl/Desktop/base.dat", "wb");
-            cout << "Введите колличество позиций: ";
-            cin >> col;
-            array_new_bd(col, about);
-            fclose(base);
-            break;
-            
-        case 2:
-            break;
-    }
-    
-    //MENU-1
-    int variant1 = menu1();
-    bool ok = false;
-    while (ok != true) {
-        switch (variant1)
-        {
+    do {
+        print_menu_first(); // выводим меню на экран
+        
+        variant = get_variant(5); // получаем номер выбранного пункта меню
+        
+        switch (variant) {
             case 1:
-                base = fopen("base.dat", "wb");
-                cout << "Введите колличество позиций: ";
-                cin >> col;
-                array_new_bd(col, about);
-                fclose(base);
+                
                 break;
                 
             case 2:
-                array_print(col, about);
+                
                 break;
                 
             case 3:
-                ok = true;
+                
+                break;
+                
+            case 4:
+                
                 break;
         }
-    }
-    array_find_artical(find_artical, col, about);
-    array_sale(col, about);
-    array_count(col, about);
+        
+        if (variant != 5)
+            system("pause"); // задерживаем выполнение, чтобы пользователь мог увидеть результат выполнения выбранного пункта
+    } while (variant != 5);
     
+    
+    //MENU-0
+    FILE *base;
+    /*   int variant0 = menu0();
+     switch (variant0)
+     {
+     case 1:
+     base = fopen("/Users/andrvdnl/Desktop/base.dat", "wb");
+     cout << "Введите колличество позиций: ";
+     cin >> col;
+     array_new_bd(col, about);
+     fclose(base);
+     break;
+     
+     case 2:
+     break;
+     }
+     
+     //MENU-1
+     int variant1 = menu1();
+     bool ok = false;
+     while (ok != true) {
+     switch (variant1)
+     {
+     case 1:
+     base = fopen("base.dat", "wb");
+     cout << "Введите колличество позиций: ";
+     cin >> col;
+     array_new_bd(col, about);
+     fclose(base);
+     break;
+     
+     case 2:
+     array_print(col, about);
+     break;
+     
+     case 3:
+     ok = true;
+     break;
+     }
+     }
+     array_find_artical(find_artical, col, about);
+     array_sale(col, about);
+     array_count(col, about);
+     */
 }

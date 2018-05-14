@@ -79,8 +79,8 @@ void array_count ( int n, good about[])
 void print_menu() {
     printf("1. Создать БД\n");
     printf("2. Вывести все позиции\n");
-    printf("3. Добавить позицию\n");
-    printf("4. Поиск позиции по артикулу\n");
+    printf("3. Добавить позицию\n"); //
+    printf("4. Поиск позиции по артикулу\n"); //
     printf("5. Вывести все позиции со скидкой\n");
     printf("6. Вывести все позиции, которых нет в наличии\n");
     printf("7. Отсортировать все позиции по указанному полю\n");
@@ -92,25 +92,35 @@ void print_menu() {
 void print_main_menu()
 {
     printf("1. Создать БД\n");
-    printf("2. Загрузить данные\n");
+    printf("2. Загрузить данные\n"); //
     printf("3. Выход\n");
     printf(">");
 }
 
 void print_artical_menu()
 {
-    cout << "1. Удалить позицию" << endl;
-    cout << "2. Изменить данные" << endl;
+    cout << "1. Удалить позицию" << endl; //
+    cout << "2. Изменить данные" << endl; //
     cout << "3. Выход" << endl;
 }
 
 void print_artical_passiv_menu()
 {
-    cout << "1. Изменить наименование" << endl;
-    cout << "2. Изменить артикуль" << endl;
-    cout << "3. Изменить колличество" << endl;
-    cout << "4. Изменить цену" << endl;
-    cout << "5. Изменить скидку" << endl;
+    cout << "1. Изменить наименование" << endl; //
+    cout << "2. Изменить артикуль" << endl; //
+    cout << "3. Изменить колличество" << endl; //
+    cout << "4. Изменить цену" << endl; //
+    cout << "5. Изменить скидку" << endl; //
+    cout << "6. Выход" << endl; //
+}
+
+void print_sort_manu()
+{
+    cout << "1. Отсортировать по наиманованию" << endl;
+    cout << "2. Отсортировать по артиклю" << endl;
+    cout << "3. Отсортировать по колличеству" << endl;
+    cout << "4. Отсортировать по цене" << endl;
+    cout << "5. Отсортировать по скидке" << endl;
     cout << "6. Выход" << endl;
 }
 
@@ -143,7 +153,7 @@ void array_pluss(int i, int n, good about[])
     }
 }
 
-int array_srv(const void *a,const void *b)
+int array_sort_name(const void *a,const void *b)
 {
     if ((*(good*)a).name == (*(good*)b).name)
         return 0;
@@ -153,10 +163,50 @@ int array_srv(const void *a,const void *b)
         return 1;
 }
 
+int array_sort_artical(const void *a,const void *b)
+{
+    if ((*(good*)a).artical == (*(good*)b).artical)
+        return 0;
+    else if ((*(good*)a).artical < (*(good*)b).artical)
+        return -1;
+    else
+        return 1;
+}
+
+int array_sort_count(const void *a,const void *b)
+{
+    if ((*(good*)a).count == (*(good*)b).count)
+        return 0;
+    else if ((*(good*)a).count < (*(good*)b).count)
+        return -1;
+    else
+        return 1;
+}
+
+int array_sort_price(const void *a,const void *b)
+{
+    if ((*(good*)a).price == (*(good*)b).price)
+        return 0;
+    else if ((*(good*)a).price < (*(good*)b).price)
+        return -1;
+    else
+        return 1;
+}
+
+int array_sort_sale(const void *a,const void *b)
+{
+    if ((*(good*)a).sale == (*(good*)b).sale)
+        return 0;
+    else if ((*(good*)a).sale < (*(good*)b).sale)
+        return -1;
+    else
+        return 1;
+}
+
 int main() {
     FILE *base;
     setlocale(LC_ALL, "russian");
-    int col, variant, variant_0, variant_artical, variant_passiv, capacity = 1;
+    int col, variant, variant_0, variant_artical, variant_passiv, variant_sort, capacity = 1;
     struct good pdr;
     good *pdr1 = new good;
     good about[col];
@@ -246,7 +296,33 @@ int main() {
                     break;
                     
                 case 7:
-                    qsort(about, col, sizeof(good), array_srv);
+                    print_sort_manu();
+                    variant_sort = get_variant(6);
+                    switch (variant_sort)
+                {
+                    case 1:
+                        qsort(about, col, sizeof(good), array_sort_name);
+                        break;
+                        
+                    case 2:
+                        qsort(about, col, sizeof(good), array_sort_artical);
+                        break;
+                        
+                    case 3:
+                        qsort(about, col, sizeof(good), array_sort_count);
+                        break;
+                        
+                    case 4:
+                        qsort(about, col, sizeof(good), array_sort_price);
+                        break;
+                        
+                    case 5:
+                        qsort(about, col, sizeof(good), array_sort_sale);
+                        break;
+                        
+                }
+                    if (variant_sort == 6)
+                        break;
                     break;
                     
                 case 8:

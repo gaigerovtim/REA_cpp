@@ -30,17 +30,12 @@ void array_new_bd ( int n, good about[])
 };
 
 // Поиск по артиклю
-void array_find_artical (int n, good about[])
+void array_find_artical (int l, int n, good about[])
 {
-    int l;
-    cout << "Введите артикул";
-    cin >> l;
     for (int s = 0; s < n; s++) {
         if (about[ s ].artical == l)
         {
             cout << about[ s ].name << " | " << about[ s ].artical << " | " << about[ s ].count << " | " << about[ s ].price << " | " << about[ s ].sale << endl;
-            // ДОПИЛИТЬ ПЕРЕЗАПИСЬ ДАННЫХ, ПОСЛЕ ТОГО КАК ДАНЯ ПРИШЛЕТ КНОПКИ
-            // УДАЛЕНИЕ ПОЗИЦИЙ
         }
     }
 };
@@ -87,7 +82,7 @@ void print_menu() {
     printf("8. Сохранить БД\n");
     printf("9. Выход\n");
     printf(">");
-}
+};
 
 void print_main_menu()
 {
@@ -95,14 +90,14 @@ void print_main_menu()
     printf("2. Загрузить данные\n"); //
     printf("3. Выход\n");
     printf(">");
-}
+};
 
 void print_artical_menu()
 {
     cout << "1. Удалить позицию" << endl; //
     cout << "2. Изменить данные" << endl; //
     cout << "3. Выход" << endl;
-}
+};
 
 void print_artical_passiv_menu()
 {
@@ -112,7 +107,7 @@ void print_artical_passiv_menu()
     cout << "4. Изменить цену" << endl; //
     cout << "5. Изменить скидку" << endl; //
     cout << "6. Выход" << endl; //
-}
+};
 
 void print_sort_manu()
 {
@@ -122,7 +117,7 @@ void print_sort_manu()
     cout << "4. Отсортировать по цене" << endl;
     cout << "5. Отсортировать по скидке" << endl;
     cout << "6. Выход" << endl;
-}
+};
 
 int get_variant(int count) {
     int variant;
@@ -134,7 +129,7 @@ int get_variant(int count) {
         scanf("%s", s); // считываем строку повторно
     }
     return variant;
-}
+};
 
 void array_pluss(int i, int n, good about[])
 {
@@ -151,7 +146,7 @@ void array_pluss(int i, int n, good about[])
         cout << "Скидка: ";
         cin >> about[ i ].sale;
     }
-}
+};
 
 int array_sort_name(const void *a,const void *b)
 {
@@ -161,7 +156,7 @@ int array_sort_name(const void *a,const void *b)
         return -1;
     else
         return 1;
-}
+};
 
 int array_sort_artical(const void *a,const void *b)
 {
@@ -171,7 +166,7 @@ int array_sort_artical(const void *a,const void *b)
         return -1;
     else
         return 1;
-}
+};
 
 int array_sort_count(const void *a,const void *b)
 {
@@ -181,7 +176,7 @@ int array_sort_count(const void *a,const void *b)
         return -1;
     else
         return 1;
-}
+};
 
 int array_sort_price(const void *a,const void *b)
 {
@@ -191,7 +186,7 @@ int array_sort_price(const void *a,const void *b)
         return -1;
     else
         return 1;
-}
+};
 
 int array_sort_sale(const void *a,const void *b)
 {
@@ -201,12 +196,93 @@ int array_sort_sale(const void *a,const void *b)
         return -1;
     else
         return 1;
-}
+};
+
+void array_delete(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            for (i; i < n; i++)
+            {
+                about[i] = about[i + 1];
+            }
+            break;
+        }
+    }
+};
+
+void array_change_name(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            cout << "Введите новое наименование" << endl;
+            cin >> about[i].name;
+        }
+    }
+};
+
+void array_change_artical(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            cout << "Введите новый артикаль" << endl;
+            cin >> about[i].artical;
+        }
+    }
+};
+
+void array_change_count(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            cout << "Введите новое колличество" << endl;
+            cin >> about[i].count;
+        }
+    }
+};
+
+void array_change_price(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            cout << "Введите новую цену" << endl;
+            cin >> about[i].price;
+        }
+    }
+};
+
+void array_change_sale(int art, int n, good about[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        
+        if (about[i].artical == art)
+        {
+            cout << "Введите новую скидку" << endl;
+            cin >> about[i].sale;
+        }
+    }
+};
 
 int main() {
     FILE *base;
     setlocale(LC_ALL, "russian");
-    int col, variant, variant_0, variant_artical, variant_passiv, variant_sort, capacity = 1;
+    int col, art_find, variant, variant_0, variant_artical, variant_passiv, variant_sort, capacity = 1;
     struct good pdr;
     good *pdr1 = new good;
     good about[col];
@@ -252,12 +328,15 @@ int main() {
                     break;
                     
                 case 4:
-                    array_find_artical(col, about);
+                    cout << "Введите артикул";
+                    cin >> art_find;
+                    array_find_artical(art_find, col, about);
                     print_artical_menu();
                     variant_artical = get_variant(6);
                     switch (variant_artical)
                 {
                     case 1:
+                        array_delete(art_find, col, about);
                         break;
                         
                     case 2:
@@ -266,18 +345,23 @@ int main() {
                         switch (variant_passiv)
                     {
                         case 1:
+                            array_change_name(art_find, col, about);
                             break;
                             
                         case 2:
+                            array_change_artical(art_find, col, about);
                             break;
                             
                         case 3:
+                            array_change_count(art_find, col, about);
                             break;
                             
                         case 4:
+                            array_change_price(art_find, col, about);
                             break;
                             
                         case 5:
+                            array_change_sale(art_find, col, about);
                             break;
                             
                     }

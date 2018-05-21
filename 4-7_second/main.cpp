@@ -75,11 +75,11 @@ void print_menu() {
     printf("1. Создать БД\n");
     printf("2. Вывести все позиции\n");
     printf("3. Добавить позицию\n"); //
-    printf("4. Поиск позиции по артикулу\n"); //
+    printf("4. Поиск позиции по артикулу\n");
     printf("5. Вывести все позиции со скидкой\n");
     printf("6. Вывести все позиции, которых нет в наличии\n");
     printf("7. Отсортировать все позиции по указанному полю\n");
-    printf("8. Сохранить БД\n");
+    printf("8. Сохранить БД\n"); //
     printf("9. Выход\n");
     printf(">");
 };
@@ -94,19 +94,19 @@ void print_main_menu()
 
 void print_artical_menu()
 {
-    cout << "1. Удалить позицию" << endl; //
-    cout << "2. Изменить данные" << endl; //
+    cout << "1. Удалить позицию" << endl;
+    cout << "2. Изменить данные" << endl;
     cout << "3. Выход" << endl;
 };
 
 void print_artical_passiv_menu()
 {
-    cout << "1. Изменить наименование" << endl; //
-    cout << "2. Изменить артикуль" << endl; //
-    cout << "3. Изменить колличество" << endl; //
-    cout << "4. Изменить цену" << endl; //
-    cout << "5. Изменить скидку" << endl; //
-    cout << "6. Выход" << endl; //
+    cout << "1. Изменить наименование" << endl;
+    cout << "2. Изменить артикуль" << endl;
+    cout << "3. Изменить колличество" << endl;
+    cout << "4. Изменить цену" << endl;
+    cout << "5. Изменить скидку" << endl;
+    cout << "6. Выход" << endl;
 };
 
 void print_sort_manu()
@@ -198,18 +198,19 @@ int array_sort_sale(const void *a,const void *b)
         return 1;
 };
 
-void array_delete(int art, int n, good about[])
+void array_delete(int art, int *n, good about[])
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < *n; i++)
     {
         
         if (about[i].artical == art)
         {
-            for (i; i < n; i++)
+            for (i; i < *n - 1; i++)
             {
                 about[i] = about[i + 1];
             }
-            break;
+            *n -= 1;
+            return;
         }
     }
 };
@@ -279,6 +280,16 @@ void array_change_sale(int art, int n, good about[])
     }
 };
 
+void array_save_in_file ( int n, good about[])
+{
+    FILE *god;
+    god = fopen("/Users/tim/Desktop/base.dat", "wb");
+    for (int j = 0; j < n; j++) {
+        fwrite(about, sizeof(struct good), 1, god);
+    }
+    fclose(god);
+};
+
 int main() {
     FILE *base;
     setlocale(LC_ALL, "russian");
@@ -300,8 +311,21 @@ int main() {
             break;
             
         case 2:
+        {
+            FILE *god;
+            god = fopen("/Users/tim/Desktop/base.dat", "rb");
+            int n = 0;
+            while (!feof(god)) {
+                fread(&about[n++], sizeof(struct good), 1, god);
+            }
+            n -= 1;
+            col = n;
+            fclose(god);
+            
+        }
             break;
     }
+    
     
     // ОСНОВНОЕ МЕНЮ
     if (variant_0 != 3) { // чтобы работала кнопка выхода в первом меню
@@ -336,7 +360,7 @@ int main() {
                     switch (variant_artical)
                 {
                     case 1:
-                        array_delete(art_find, col, about);
+                        array_delete(art_find, &col, about);
                         break;
                         
                     case 2:
@@ -410,7 +434,7 @@ int main() {
                     break;
                     
                 case 8:
-                    
+                    array_save_in_file (col, about);
                     break;
             }
             
